@@ -1,0 +1,40 @@
+cmake_minimum_required(VERSION 2.8)			#Specify the minimum CMake version
+#Name your project here
+project(cuda-P1)								#Specify the name of the project
+
+#set the module directory
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}")
+#find packages-----------------------------------
+#find OpenCV
+#find_package(OpenCV REQUIRED)
+
+#find the STIM library
+#find_package(STIM)
+
+find_package(CUDA REQUIRED)					#find the CUDA libraries
+
+#set(HDR_FILES E:/Courses/GPU/software/includeh)
+
+include_directories(${CUDA_INCLUDE_DIRS})	#Specify the CUDA include directories for the project
+#set the STIM include directory (either user provided or downloaded)
+#include_directories(${STIM_INCLUDE_DIRS})
+
+#include_directories(${HDR_FILES})
+#Assign source files to the appropriate variables to easily associate them with executables
+file(GLOB CU_FILES "*.cu")
+file(GLOB HEADER_FILES "*.h")
+
+cuda_add_executable(cuda-P1
+			${CU_FILES}
+			${HEADER_FILES}
+	)			#create an executable from the given CUDA files
+	
+#specify any additional libraries here (CUFFT and CUBLAS can be useful)
+target_link_libraries(cuda-P1
+					  #${HEADER_FILES}
+					  ${OpenCV_LIBS}
+					  ${CUDA_cufft_LIBRARY}
+					  ${CUDA_cublas_LIBRARY}
+					  
+					  )
+					  
